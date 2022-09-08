@@ -20,6 +20,7 @@ public:
 };
 
  // method 2- use sqrt(x) function 
+ // time complexity-> o(logn)
 class Solution {
 public:
     int mySqrt(int x) {     
@@ -30,6 +31,7 @@ public:
 
 
 // method 3- use binary search 
+//time complexity- > o(logn)
 class Solution {
 public:
     int mySqrt(int x) {
