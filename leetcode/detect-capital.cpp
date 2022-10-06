@@ -10,38 +10,17 @@
 class Solution {
 public:
     bool detectCapitalUse(string word) { 
-        bool first;
-        if(word[0]-'a'>=0) first= false;
-        else first= true;
-        cout<<first<<endl;
-        if(first)
+        int countCapital=0, countSmall=0;
+        for(int i=0;i<word.length();i++)
         {
-            bool t1= true,t2= true;
-            for(int i=1;i<word.length();i++)
-            {
-                if(word[i]-'a' < 0) 
-                {t1= false;
-                 break;}
-            }
-            for(int i=1;i<word.length();i++)
-            {
-                if('Z'- word[i]< 0)  
-                {t2= false;
-                 break;}
-            }
-            if(t1 || t2) return true;
+            if(word[i]-'A'>=0 && word[i]-'Z' <=0)
+                countCapital++;
+            else countSmall++;
         }
-        else
-        {
-            bool t3= true;
-            for(int i=1;i<word.length();i++)
-            {
-                if(word[i]-'a' <  0)  
-                {t3= false;
-                 break;}
-            }
-            if(t3) return true;
-        }
-        return false;
+        
+        int n= word.length();
+        if(countCapital== n || (countCapital==1 && word[0]-'A'>=0 && word[0]-'Z'<=0)) return true;
+        else if(countSmall== n) return true;
+        else return false;
     }
 };
