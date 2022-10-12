@@ -24,8 +24,8 @@ public:
     int vis[1001];
     TreeNode* tree(vector<int>&nums, int l, int r)
     {
-        if(r<0 || l>nums.size()) return NULL;
-        TreeNode* root= new TreeNode();
+        if(l>r) return NULL;
+        
         int max= INT_MIN;
         int index;
         for(int i= l; i<=r;i++)
@@ -36,12 +36,10 @@ public:
                 index= i;
             }
         }
-        
-        if(max== INT_MIN) return NULL;
-        else if(vis[index]==1) return NULL;
-        else root->val = max;
-        vis[index]=1;
-        
+ 
+        TreeNode* root= new TreeNode();
+        root->val = max;
+    
         root->left= tree(nums,l,index-1);
         root->right= tree(nums,index+1, r);
         return root;
