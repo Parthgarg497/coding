@@ -14,43 +14,61 @@
 class Solution {
 public:
     string shortestCommonSupersequence(string str1, string str2) {
-        int m= str1.length();
-        int n= str2.length();
-        vector<vector<string>>dp(m+1,vector<string>(n+1,""));
+        int a= str1.length();
+        int b= str2.length();
+        int dp[a+1][b+1];
+        for(int i=0;i<a+1;i++)dp[i][0]=0;
+        for(int i=0;i<b+1;i++)dp[0][i]=0;
         
-        for(int i=0;i<m;i++)
+        for(int i=1;i<a+1;i++)
         {
-            for(int j=0;j<n;j++)
+            for(int j=1;j<b+1;j++)
             {
-                if(str1[i]== str2[j])
-                    dp[i+1][j+1]= dp[i][j]+str1[i];
+                if(str1[i-1]==str2[j-1])
+                {
+                    dp[i][j]= 1+ dp[i-1][j-1];
+                }
                 else
-                    dp[i+1][j+1]= (dp[i][j+1].length()>dp[i+1][j].length()) ? dp[i][j+1] : dp[i+1][j];
+                {
+                    dp[i][j]= max(dp[i-1][j], dp[i][j-1]);
+                }
             }
         }
-        
-        string result;
-        int i=0,j=0;
-        for(auto c: dp[m][n])
+        string ans;
+        int n=a,m=b;
+        while(n>0 && m>0)
         {
-            while(str1[i]!= c)
-                result.push_back(str1[i++]);
-            while(str2[j]!= c)
-                result.push_back(str2[j++]);
             
-            result.push_back(c);
-            i++;j++;
+            if(str1[n-1]==str2[m-1])
+            {    
+                ans.push_back(str1[n-1]);
+                n--;
+                m--;
+            }
+            else if(dp[n-1][m]<dp[n][m-1])
+            {
+                ans.push_back(str2[m-1]);
+                m--;
+            }
+            else
+            {
+                ans.push_back(str1[n-1]);
+                n--;
+            }
+           
         }
-        while(i!= m)
+        
+        while(n>0)
         {
-            result.push_back(str1[i]);
-            i++;
+            ans.push_back(str1[n-1]);
+            n--;
         }
-        while(j!= n)
+        while(m>0)
         {
-            result.push_back(str2[j]);
-            j++;
+            ans.push_back(str2[m-1]);
+            m--;
         }
-        return result;
+        reverse(ans.begin(),ans.end());
+        return ans;
     }
 };
