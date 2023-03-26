@@ -1,14 +1,13 @@
 /*
-    name= Capacity To Ship Packages Within B Days
-    link- https://www.interviewbit.com/problems/capacity-to-ship-packages-within-b-days/
+    name= painter's partition problem 
+    link- https://www.interviewbit.com/problems/painters-partition-problem/
     author- Parth garg
-    time complexity- o(n*log(sum))
+    time complexity- o(n log(sum))
     space complexity- o(1)
     method 1;
 */
 
-
-bool check(vector<int>&A ,int B, int capacity){
+bool check(vector<int>&A ,int B ,int capacity){
     int sum =0;
     for(int i=0;i<A.size();i++){
         if(A[i] > capacity){
@@ -26,22 +25,20 @@ bool check(vector<int>&A ,int B, int capacity){
     else return false;
 }
 
-int Solution::solve(vector<int> &A, int B) {
-    
-    int l=1,r=0;
-    for(int i=0;i<A.size();i++){
-        r+= A[i];
-    }
+int Solution::paint(int A, int B, vector<int> &C) {
+    long long l= 1,r=0;
+    const int m= 10000003;
+    for(int i=0;i<C.size();i++)r+= C[i];
     
     while(l<r){
-        int mid = l+ (r-l)/2;
-        if(check(A,B,mid)){
+        long long mid= l+ (r-l)/2;
+        if(check(C,A,mid)){
             r= mid;
         }
         else{
             l= mid+1;
         }
     }
-    return l;
-    
+    int ans= ((l%m)*1LL*(B%m))%m;
+    return ans;
 }
